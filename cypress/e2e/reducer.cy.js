@@ -1,5 +1,5 @@
 import { productReducer } from "../../src/redux/reducers/productReducer";
-import { productActons } from "../../src/redux/constants/constants";
+import { productActons } from "../../src/redux/constants/actionType";
 describe('reducer test', () => {
     const initialState = {
         product:[],
