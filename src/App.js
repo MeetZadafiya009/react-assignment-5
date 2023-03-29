@@ -1,31 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Signup from './Pages/Signup';
-import Login from './Pages/Login';
-import Home from './Pages/Home';
+import Signup from './Pages/Auth/Signup';
+import Login from './Pages/Auth/Login';
 import HeaderComponent from './Components/HeaderComponent';
-import Profile from './Pages/Profile';
+import Profile from './Pages/Auth/Profile';
 import PrivateComponent from './Components/PrivateComponent';
-import Products from './Pages/Products';
-import Product from './Pages/Product';
-import Password from './Pages/Password';
+import Products from './Pages/product/Products';
+import Product from './Pages/product/Product';
+import Password from './Pages/Auth/Password';
+import { Toaster } from 'react-hot-toast';
+import Error from './Pages/404/Error';
+import PublicComponent from './Components/PublicComponent';
 
 function App() {
   return (
     <BrowserRouter>
       <HeaderComponent />
       <Routes>
+        
         <Route element={<PrivateComponent />}>
-          <Route path='/' element={<Home />} />
+          <Route path='/' element={<Products />} />
           <Route path='/profile' element={<Profile />} />
-          <Route path='/products' element={<Products />} />
           <Route path='/product/:id' element={<Product />} />
           <Route path='/change-password' element={<Password />} />
         </Route>
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/login' element={<Login />} />
+        <Route element={<PublicComponent />}>
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/login' element={<Login />} />
+        </Route>
+        <Route path='/*' element={<Error />} />
       </Routes>
+      <Toaster />
     </BrowserRouter>
   );
 }

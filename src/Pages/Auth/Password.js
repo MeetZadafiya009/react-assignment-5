@@ -1,7 +1,10 @@
 import { useFormik } from "formik"
-import { password_verify, encryptData } from "../functions/auth";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { password_verify, encryptData } from "../../functions/auth";
 
 const Password = () => {
+    const navigate=useNavigate();
     let login = JSON.parse(localStorage.getItem('login'));
     const formik = useFormik({
         initialValues: {
@@ -9,7 +12,7 @@ const Password = () => {
             npassword: '',
             rpassword: ''
         },
-        onSubmit: (values) => {
+        onSubmit: (values,{resetForm}) => {
             let check=password_verify(login.email, values.cpassword);
             if (check.status) {
                 let auth = JSON.parse(localStorage.getItem('users'));
@@ -17,24 +20,17 @@ const Password = () => {
                 let new_data = auth.filter((user) => user.id == check.user.id);
                 localStorage.setItem('login', JSON.stringify(new_data[0]));
                 localStorage.setItem('users', JSON.stringify(auth));
-                alert("password change successfully");
+                toast.success("password change successfully");
+                navigate('/profile');
             } else {
-                alert('current password is not correct');
+                toast.error("current password is not correct");
             }
         },
         validate: (values) => {
             const errors = {};
             if (!values.cpassword) {
                 errors.cpassword = "Required";
-            } else if (!values.cpassword.match(/[A-Z]/)) {
-                errors.cpassword = "password must contain uppercase";
-            } else if (!values.cpassword.match(/[a-z]/)) {
-                errors.cpassword = "password must contain lowercase";
-            } else if (!values.cpassword.match(/[0-9]/)) {
-                errors.cpassword = "password must contain number";
-            } else if (!values.cpassword.match(/[@#!%$&^()_|{}<>?+=]/)) {
-                errors.cpassword = "password must contain special characater";
-            }
+            } 
             if (!values.npassword) {
                 errors.npassword = "Required";
             } else if (!values.npassword.match(/[A-Z]/)) {
@@ -56,7 +52,7 @@ const Password = () => {
     })
 
     return (
-        <section>
+        <section >
             <div className='container'>
                 <div className='row justify-content-center'>
                     <form className='login col-6 mt-5 px-5 py-5' onSubmit={formik.handleSubmit}>
@@ -70,29 +66,26 @@ const Password = () => {
                         <div className='row gx-5'>
                             <div className='col-md-12 pb-4'>
                                 <div className='form-group'>
-                                    <label className='form-label mb-2'>current passowrd :</label>
-                                    <input type='password' onChange={formik.handleChange} name='cpassword' className='form-control' placeholder='Current Password' />
+                                    <input type='password' onChange={formik.handleChange} name='cpassword' className='form-input' placeholder='Current Password' />
                                     {formik.errors.cpassword ? <span className='text-danger'>{formik.errors.cpassword}</span> : ""}
                                 </div>
                             </div>
                             <div className=' col-md-12 pb-4'>
                                 <div className='form-group'>
-                                    <label className='form-label mb-2'>new password :</label>
-                                    <input type='password' onChange={formik.handleChange} name='npassword' className='form-control' placeholder='New password' />
+                                    <input type='password' onChange={formik.handleChange} name='npassword' className='form-input' placeholder='New password' />
                                     {formik.errors.npassword ? <span className='text-danger'>{formik.errors.npassword}</span> : ""}
                                 </div>
                             </div>
                             <div className=' col-md-12'>
                                 <div className='form-group'>
-                                    <label className='form-label mb-2'>confirm password :</label>
-                                    <input type='password' onChange={formik.handleChange} name='rpassword' className='form-control' placeholder='Confirm password' />
+                                    <input type='password' onChange={formik.handleChange} name='rpassword' className='form-input' placeholder='Confirm password' />
                                     {formik.errors.rpassword ? <span className='text-danger'>{formik.errors.rpassword}</span> : ""}
                                 </div>
                             </div>
                         </div>
                         <div className='row pt-5'>
                             <div className='col-12 d-flex justify-content-center'>
-                                <button type='submit' className='btn btn-success'>SAVE</button>
+                                <button type='submit' className='px-5 py-2 btn btn-success'>SAVE</button>
                             </div>
                         </div>
                     </form>

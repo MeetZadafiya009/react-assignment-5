@@ -14,8 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
 function HeaderComponent() {
-    const pages = ['Products', 'Pricing', 'Blog'];
-    const settings = ['Profile', 'Dashboard', 'Logout'];
+    const pages = [];
     let auth = localStorage.getItem('login') ? JSON.parse(localStorage.getItem('login')) : "";
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -44,9 +43,9 @@ function HeaderComponent() {
                 navigate('/profile')
                 break;
             case "Dashboard":
-                navigate('/products')
+                navigate('/')
                 break;
-                
+
         }
     }
     return (
@@ -140,11 +139,12 @@ function HeaderComponent() {
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <Tooltip title="Open settings">
-                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                            <IconButton id='avtar' onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" >{auth ? auth.fname.substr(0, 1).toUpperCase() + auth.lname.substr(0, 1).toUpperCase() : null}</Avatar>
                             </IconButton>
                         </Tooltip>
                         <Menu
+
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
@@ -160,11 +160,15 @@ function HeaderComponent() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            {settings.map((setting, index) => (
-                                <MenuItem key={index} onClick={handleCloseUserMenu}>
-                                    <Typography onClick={() => settingAction(setting)} textAlign="center">{setting}</Typography>
-                                </MenuItem>
-                            ))}
+                            <MenuItem id='Profile' onClick={handleCloseUserMenu}>
+                                <Typography onClick={() => settingAction('Profile')} textAlign="center">Profile</Typography>
+                            </MenuItem>
+                            <MenuItem id='Dashboard' onClick={handleCloseUserMenu}>
+                                <Typography onClick={() => settingAction('Dashboard')} textAlign="center">Dashboard</Typography>
+                            </MenuItem>
+                            <MenuItem id='Logout' onClick={handleCloseUserMenu}>
+                                <Typography onClick={() => settingAction('Logout')} textAlign="center">Logout</Typography>
+                            </MenuItem>
                         </Menu>
                     </Box>
                 </Toolbar>

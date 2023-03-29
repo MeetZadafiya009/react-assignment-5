@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { removeSelectedProduct, selectProduct } from "../redux/actions/productAction";
-import ProductSlider from "../Components/ProductSlider";
+import { removeSelectedProduct, selectProduct } from "../../redux/actions/productAction";
+import ProductSlider from "../../Components/ProductSlider";
 const Product = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
@@ -28,7 +28,7 @@ const Product = () => {
                     </div>
                     {
                         Object.keys(product).length != 0 ?
-                            <div className="row py-5">
+                            <div id='single-product' className="row py-5">
                                 <div className="col-md-6">
                                     <ProductSlider data={product.images} />
                                 </div>
@@ -43,7 +43,7 @@ const Product = () => {
                                     </div>
                                 </div>
                             </div> :
-                            <>Loading</>
+                            <><div className="loader"><img src="./../../images/loader.gif" alt='loader'/></div></>
                     }
                 </div>
             </section>

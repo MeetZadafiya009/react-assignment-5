@@ -1,11 +1,11 @@
-import './../style/bootstrap.css';
-import './../style/style.css';
+import './../../style/bootstrap.css';
+import './../../style/style.css';
 import { Button, TextField } from '@mui/material';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import {  useState } from 'react';
-import { descryptData } from '../functions/auth';
+import { descryptData } from '../../functions/auth';
 import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
 const Profile = () => {
     let auth = JSON.parse(localStorage.getItem('login'));
     const formik = useFormik({
@@ -28,7 +28,7 @@ const Profile = () => {
             let login = auth.filter((user) => user.id == values.id);
             localStorage.setItem('login', JSON.stringify(login[0]));
             localStorage.setItem('users', JSON.stringify(auth));
-            alert("user profile  updated successfully");
+            toast.success("user profile  updated successfully");
         },
         validate: (values) => {
             const errors = {};
@@ -46,7 +46,7 @@ const Profile = () => {
                 errors.lname = "last name does not number";
             }
             else if(values.lname.match(/[@#!%&^$()_|{}<>?+=]/)){
-                errors.lname = "first name does not special char";
+                errors.lname = "last name does not special char";
             }
             if (!values.email) {
                 errors.email = "Required";
@@ -74,37 +74,37 @@ const Profile = () => {
                         <div className='col-4 mb-5'>
                             <div className='form-group'>
                                 <input type='hidden' name='id' value={formik.values.id} />
-                                <TextField name='fname' className='bg-input w-100' onChange={formik.handleChange} value={formik.values.fname} label="First Name" variant="outlined" />
+                                <TextField name='fname' id='fname' className='bg-input w-100' onChange={formik.handleChange} value={formik.values.fname} label="First Name" variant="outlined" />
                                 {formik.errors.fname ? <span className='text-danger'>{formik.errors.fname}</span>:""}
                             </div>
                         </div>
                         <div className='col-4'>
                             <div className='form-group'>
-                                <TextField name='lname' className='bg-input w-100' onChange={formik.handleChange} value={formik.values.lname} label="Last Name" variant="outlined" />
+                                <TextField name='lname' id='lname' className='bg-input form-input w-100' onChange={formik.handleChange} value={formik.values.lname} label="Last Name" variant="outlined" />
                                 {formik.errors.lname ? <span className='text-danger'>{formik.errors.lname}</span>:""}
                             </div>
                         </div>
                         <div className='col-4'>
                             <div className='form-group'>
-                                <TextField name='email' className='bg-input w-100' onChange={formik.handleChange} value={formik.values.email} label="Email" variant="outlined" />
+                                <TextField name='email' id='email' className='bg-input w-100' onChange={formik.handleChange} value={formik.values.email} label="Email" variant="outlined" />
                                 {formik.errors.email ? <span className='text-danger'>{formik.errors.email}</span>:""}
                             </div>
                         </div>
                         <div className='col-4'>
                             <div className='form-group'>
-                                <TextField name='phone' type='number' min='10' max='10' className='bg-input w-100' onChange={formik.handleChange} value={formik.values.phone} label="Mobile" variant="outlined" />
+                                <TextField name='phone' id='phone' type='number' min='10' max='10' className='bg-input w-100' onChange={formik.handleChange} value={formik.values.phone} label="Mobile" variant="outlined" />
                                 {formik.errors.phone ? <span className='text-danger'>{formik.errors.phone}</span>:""}
                             </div>
                         </div>
                         <div className='col-4'>
                             <div className='form-group pb-1 d-flex align-items-center'>
-                                <TextField type="password" label='Password' value={formik.values.password} className='bg-input w-100 me-2' variant="outlined" disabled />
+                                <TextField type="password" id='password' label='Password' value={formik.values.password} className='bg-input w-100 me-2' variant="outlined" disabled />
                                 
                             </div>
                             <Link to='/change-password'>Change Password</Link>
                         </div>
                         <div className='col-12 py-5 d-flex justify-content-center align-items-center'>
-                            <Button type='submit' color='secondary' variant='contained'>SAVE</Button>
+                            <Button id='save' className='px-5 py-2' type='submit' color='secondary' variant='contained'>SAVE</Button>
                         </div>
                     </form>
                 </div>
