@@ -1,4 +1,4 @@
-import { productActons } from "../constants/constants"
+import { productActons } from "../constants/actionType"
 
 const initialstate={
     product:[],
