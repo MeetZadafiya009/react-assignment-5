@@ -44,3 +44,17 @@ export const checkValidEmail = (email) => {
         return true;
     }
 }
+export const updateEmail=(email)=>{
+    let auth = JSON.parse(localStorage.getItem('users'));
+    let login = JSON.parse(localStorage.getItem('login'));
+    if (auth) {
+        let exist_user = auth.filter((user) => user.email === email);
+        if (exist_user.length != 0 && exist_user[0].email!==login.email) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}

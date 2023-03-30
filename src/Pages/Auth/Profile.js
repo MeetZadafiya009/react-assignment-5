@@ -1,8 +1,8 @@
 import './../../style/bootstrap.css';
 import './../../style/style.css';
 import { Button, TextField } from '@mui/material';
-import {  useState } from 'react';
-import { descryptData } from '../../functions/auth';
+import { useState } from 'react';
+import { descryptData, updateEmail } from '../../functions/auth';
 import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
@@ -18,41 +18,45 @@ const Profile = () => {
             password: descryptData(auth.password)
         },
         onSubmit: (values) => {
-            let auth = JSON.parse(localStorage.getItem('users'));
-            auth.filter((user) => user.id == values.id).forEach((item) => (
-                item.fname = values.fname,
-                item.lname = values.lname,
-                item.phone = values.phone,
-                item.email = values.email
-            ));
-            let login = auth.filter((user) => user.id == values.id);
-            localStorage.setItem('login', JSON.stringify(login[0]));
-            localStorage.setItem('users', JSON.stringify(auth));
-            toast.success("user profile  updated successfully");
+            if (updateEmail(values.email)) {
+                toast.error("email in already use");
+            } else {
+                let auth = JSON.parse(localStorage.getItem('users'));
+                auth.filter((user) => user.id == values.id).forEach((item) => (
+                    item.fname = values.fname,
+                    item.lname = values.lname,
+                    item.phone = values.phone,
+                    item.email = values.email
+                ));
+                let login = auth.filter((user) => user.id == values.id);
+                localStorage.setItem('login', JSON.stringify(login[0]));
+                localStorage.setItem('users', JSON.stringify(auth));
+                toast.success("user profile  updated successfully");
+            }
         },
         validate: (values) => {
             const errors = {};
             if (!values.fname) {
                 errors.fname = "Required";
-            }else if(values.fname.match(/[0-9]/)){
+            } else if (values.fname.match(/[0-9]/)) {
                 errors.fname = "first name does not number";
             }
-            else if(values.fname.match(/[@#!*/%&^$()_|{}<>?+=]/)){
+            else if (values.fname.match(/[@#!*/%&^$()_|{}<>?+=]/)) {
                 errors.fname = "first name does not special char";
             }
             if (!values.lname) {
                 errors.lname = "Required";
-            }else if(values.lname.match(/[0-9]/)){
+            } else if (values.lname.match(/[0-9]/)) {
                 errors.lname = "last name does not number";
             }
-            else if(values.lname.match(/[@#!%&^$()_|{}<>?+=]/)){
+            else if (values.lname.match(/[@#!%&^$()_|{}<>?+=]/)) {
                 errors.lname = "last name does not special char";
             }
             if (!values.email) {
                 errors.email = "Required";
             } else if (!/^[A-Z0-9._%+-]+\@[A-Z0-9.-]+\.[A-Z]{2,3}$/i.test(values.email)) {
                 errors.email = "invalid email format";
-            } 
+            }
             if (!values.phone) {
                 errors.phone = "Required";
             } else if (values.phone.toString().length != 10) {
@@ -75,31 +79,31 @@ const Profile = () => {
                             <div className='form-group'>
                                 <input type='hidden' name='id' value={formik.values.id} />
                                 <TextField name='fname' id='fname' className='bg-input w-100' onChange={formik.handleChange} value={formik.values.fname} label="First Name" variant="outlined" />
-                                {formik.errors.fname ? <span className='text-danger'>{formik.errors.fname}</span>:""}
+                                {formik.errors.fname ? <span className='text-danger'>{formik.errors.fname}</span> : ""}
                             </div>
                         </div>
                         <div className='col-4'>
                             <div className='form-group'>
                                 <TextField name='lname' id='lname' className='bg-input form-input w-100' onChange={formik.handleChange} value={formik.values.lname} label="Last Name" variant="outlined" />
-                                {formik.errors.lname ? <span className='text-danger'>{formik.errors.lname}</span>:""}
+                                {formik.errors.lname ? <span className='text-danger'>{formik.errors.lname}</span> : ""}
                             </div>
                         </div>
                         <div className='col-4'>
                             <div className='form-group'>
                                 <TextField name='email' id='email' className='bg-input w-100' onChange={formik.handleChange} value={formik.values.email} label="Email" variant="outlined" />
-                                {formik.errors.email ? <span className='text-danger'>{formik.errors.email}</span>:""}
+                                {formik.errors.email ? <span className='text-danger'>{formik.errors.email}</span> : ""}
                             </div>
                         </div>
                         <div className='col-4'>
                             <div className='form-group'>
                                 <TextField name='phone' id='phone' type='number' min='10' max='10' className='bg-input w-100' onChange={formik.handleChange} value={formik.values.phone} label="Mobile" variant="outlined" />
-                                {formik.errors.phone ? <span className='text-danger'>{formik.errors.phone}</span>:""}
+                                {formik.errors.phone ? <span className='text-danger'>{formik.errors.phone}</span> : ""}
                             </div>
                         </div>
                         <div className='col-4'>
                             <div className='form-group pb-1 d-flex align-items-center'>
                                 <TextField type="password" id='password' label='Password' value={formik.values.password} className='bg-input w-100 me-2' variant="outlined" disabled />
-                                
+
                             </div>
                             <Link to='/change-password'>Change Password</Link>
                         </div>
