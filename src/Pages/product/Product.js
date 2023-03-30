@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { removeSelectedProduct, selectProduct } from "../../redux/actions/productAction";
 import ProductSlider from "../../Components/ProductSlider";
+
 const Product = () => {
     const { id } = useParams();
     const dispatch = useDispatch();
