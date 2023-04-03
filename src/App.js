@@ -11,16 +11,17 @@ import Password from './Pages/Auth/Password';
 import { Toaster } from 'react-hot-toast';
 import Error from './Pages/404/Error';
 import PublicComponent from './Components/PublicComponent';
+import Cart from './Pages/product/Cart';
 
 function App() {
   return (
     <BrowserRouter>
       <HeaderComponent />
       <Routes>
-        
         <Route element={<PrivateComponent />}>
           <Route path='/' element={<Products />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/cart' element={<Cart />} />
           <Route path='/product/:id' element={<Product />} />
           <Route path='/change-password' element={<Password />} />
         </Route>

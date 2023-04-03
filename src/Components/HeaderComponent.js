@@ -12,7 +12,11 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { useNavigate } from 'react-router-dom';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Link, useNavigate } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+import Badge from '@mui/material/Badge';
+import { useSelector } from 'react-redux';
 function HeaderComponent() {
     const pages = [];
     let auth = localStorage.getItem('login') ? JSON.parse(localStorage.getItem('login')) : "";
@@ -22,6 +26,16 @@ function HeaderComponent() {
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget);
     };
+    const total=useSelector((state)=>state.cart.quantity);
+    const StyledBadge = styled(Badge)(({ theme }) => ({
+        '& .MuiBadge-badge': {
+            right: -3,
+            top: 13,
+            border: `2px solid ${theme.palette.background.paper}`,
+            padding: '0 4px',
+        },
+    }));
+
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
     };
@@ -37,19 +51,22 @@ function HeaderComponent() {
         switch (value) {
             case "Logout":
                 localStorage.removeItem('login');
+                handleCloseUserMenu();
                 navigate('/login');
                 break;
             case "Profile":
+                handleCloseUserMenu();
                 navigate('/profile')
                 break;
             case "Dashboard":
+                handleCloseUserMenu();
                 navigate('/')
                 break;
 
         }
     }
     return (
-        <AppBar position="static">
+        <AppBar style={{background:"#34ace0"}} position="static">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -137,39 +154,49 @@ function HeaderComponent() {
                             </Button>
                         ))}
                     </Box>
-                    <Box sx={{ flexGrow: 0 }}>
-                        <Tooltip title="Open settings">
-                            <IconButton id='avtar' onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                <Avatar alt="Remy Sharp" >{auth ? auth.fname.substr(0, 1).toUpperCase() + auth.lname.substr(0, 1).toUpperCase() : null}</Avatar>
-                            </IconButton>
-                        </Tooltip>
-                        <Menu
+                    <Box  style={{ display: "flex", alignItem: "center" }}>
+                        
+                        <Box sx={{ flexGrow: 0 }}>
+                            <Tooltip title="Open settings">
+                                <IconButton id='avtar' onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Avatar alt="Remy Sharp" >{auth ? auth.fname.substr(0, 1).toUpperCase() + auth.lname.substr(0, 1).toUpperCase() : null}</Avatar>
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
 
-                            sx={{ mt: '45px' }}
-                            id="menu-appbar"
-                            anchorEl={anchorElUser}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorElUser)}
-                            onClose={handleCloseUserMenu}
-                        >
-                            <MenuItem id='Profile' onClick={handleCloseUserMenu}>
-                                <Typography onClick={() => settingAction('Profile')} textAlign="center">Profile</Typography>
-                            </MenuItem>
-                            <MenuItem id='Dashboard' onClick={handleCloseUserMenu}>
-                                <Typography onClick={() => settingAction('Dashboard')} textAlign="center">Dashboard</Typography>
-                            </MenuItem>
-                            <MenuItem id='Logout' onClick={handleCloseUserMenu}>
-                                <Typography onClick={() => settingAction('Logout')} textAlign="center">Logout</Typography>
-                            </MenuItem>
-                        </Menu>
+                                sx={{ mt: '45px' }}
+                                id="menu-appbar"
+                                anchorEl={anchorElUser}
+                                anchorOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                keepMounted
+                                transformOrigin={{
+                                    vertical: 'top',
+                                    horizontal: 'right',
+                                }}
+                                open={Boolean(anchorElUser)}
+                                onClose={handleCloseUserMenu}
+                            >
+                                <MenuItem id='Profile' onClick={() => settingAction('Profile')}>
+                                    <Typography textAlign="center">Profile</Typography>
+                                </MenuItem>
+                                <MenuItem id='Dashboard' onClick={() => settingAction('Dashboard')}>
+                                    <Typography textAlign="center">Dashboard</Typography>
+                                </MenuItem>
+                                <MenuItem id='Logout' onClick={() => settingAction('Logout')}>
+                                    <Typography textAlign="center">Logout</Typography>
+                                </MenuItem>
+                            </Menu>
+                        </Box>
+                        <Link style={{marginLeft:"20px"}} to='/cart'>
+                            <IconButton style={{color:"black"}} aria-label="cart">
+                                <StyledBadge badgeContent={total ? total:"0"} color="primary">
+                                    <ShoppingCartIcon />
+                                </StyledBadge>
+                            </IconButton>
+                        </Link>
                     </Box>
                 </Toolbar>
             </Container>

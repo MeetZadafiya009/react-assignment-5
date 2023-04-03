@@ -1,7 +1,6 @@
 import './../../style/bootstrap.css';
 import './../../style/style.css';
 import { Button, TextField } from '@mui/material';
-import { useState } from 'react';
 import { descryptData, updateEmail } from '../../functions/auth';
 import { useFormik } from 'formik';
 import { Link } from 'react-router-dom';

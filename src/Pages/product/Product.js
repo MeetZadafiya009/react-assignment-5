@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { removeSelectedProduct, selectProduct } from "../../redux/actions/productAction";
 import ProductSlider from "../../Components/ProductSlider";
+import { addToCart } from "../../redux/actions/cartAction";
 
 const Product = () => {
     const { id } = useParams();
@@ -39,7 +40,7 @@ const Product = () => {
                                     <p className="text-center">brand :{product.brand}</p>
                                     <p className="text-center h2">₹ {product.price - Math.floor(((product.price * product.discountPercentage) / 100))}</p>
                                     <div className="d-flex py-3 justify-content-center align-items-center">
-                                        <button className="btn btn-dark">ADD TO CART</button>
+                                        <button onClick={()=>dispatch(addToCart(product))} className="btn btn-dark">ADD TO CART</button>
                                         <span className="text-success ms-3">{product.stock>0 ? "IN STOCK":<span className="text-danger">OUT OF STOCK</span>}</span>
                                     </div>
                                 </div>

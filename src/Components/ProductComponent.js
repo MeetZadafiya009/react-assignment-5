@@ -1,6 +1,9 @@
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { addToCart } from "../redux/actions/cartAction";
 
 const ProductComponent = (props) => {
+    const dispatch=useDispatch();
     return (
         <>
             {
@@ -13,7 +16,7 @@ const ProductComponent = (props) => {
                                     <h6 className="card-title">{product.title}</h6>
                                     <div className="py-3  d-flex justify-content-between">
                                         <button className="btn btn-dark">₹ {product.price - Math.floor(((product.price * product.discountPercentage) / 100))}</button>
-                                        <button className="btn btn-primary">ADD TO CART</button>
+                                        <button onClick={()=>dispatch(addToCart(product))} className="btn btn-primary">ADD TO CART</button>
                                     </div>
                                 </div>
                             </div>
