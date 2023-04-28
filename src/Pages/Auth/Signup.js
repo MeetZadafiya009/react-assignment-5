@@ -83,14 +83,14 @@ const Signup = () => {
     });
     return (
         <section className='signup-section pt-5'>
-            <div className='container pt-5'>
+            <div className='container px-5 pt-5'>
                 <form className='signup  px-5 row py-5' onSubmit={formik.handleSubmit}>
                     <div className='col-12'>
                         <h3 className='text-center'>
                             Register
                         </h3>
                     </div>
-                    <div className='col-12 pt-4'>
+                    <div className='col-12  pt-4'>
                         <div className='row gx-5'>
                             <div className='col-md-6 pb-3'>
                                 <div className='form-group'>

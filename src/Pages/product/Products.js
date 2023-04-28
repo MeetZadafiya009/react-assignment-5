@@ -4,7 +4,7 @@ import ProductComponent from "../../Components/ProductComponent";
 import { setProduct } from "../../redux/actions/productAction";
 import { Pagination } from "@mui/material";
 import './../../style/bootstrap.css';
-import  './../../style/style.css'
+import  './../../style/style.css';
 const Products = () => {
     const dispatch = useDispatch();
     const total=Math.ceil(100/8);

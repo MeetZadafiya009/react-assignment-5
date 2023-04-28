@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, deleteFromCart, removeToCart } from "../redux/actions/cartAction";
 import CancelIcon from '@mui/icons-material/Cancel';
+import { Link } from "react-router-dom";
 const CartComponent = () => {
     const cartData = useSelector((state) => state.cart.cartData);
     const dispatch = useDispatch();
@@ -18,7 +19,9 @@ const CartComponent = () => {
                             <TableRow>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>
-                                    <img style={{ height: "100px", width: "150px" }} className="cart-img img-fluid" src={product.thumbnail} />
+                                    <Link to={`/product/${product.id}`}>
+                                        <img style={{ height: "100px", width: "150px" }} className="cart-img img-fluid" src={product.thumbnail} />
+                                    </Link>
                                 </TableCell>
                                 <TableCell>{product.title}</TableCell>
                                 <TableCell>{product.price}</TableCell>

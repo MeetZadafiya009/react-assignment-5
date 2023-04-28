@@ -10,8 +10,8 @@ const ProductSlide = (props) => {
 
     return (
         <Carousel activeIndex={index} onSelect={handleSelect}>
-            {props.data.map((image) => (
-                <Carousel.Item>
+            {props.data.map((image,index) => (
+                <Carousel.Item key={index}>
                     <img
                         style={{height:"500px"}}
                         className="d-block w-100"
